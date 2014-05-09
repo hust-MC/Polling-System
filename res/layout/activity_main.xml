@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/hide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <requestFocus />
+    </TextView>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#a00f"
+        android:cacheColorHint="#00000000"
+        android:clickable="true"
+        android:divider="@null"
+        android:listSelector="@drawable/listview_selector"
+        android:paddingLeft="20dp"
+        android:scrollbars="vertical"
+        android:transcriptMode="alwaysScroll" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_weight="10"
+        android:background="#33aa0000" >
+
+        <Button
+            android:layout_margin="2dp"
+            android:id="@+id/more_bt"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/sound"
+            android:onClick="onClick_more" />
+
+        <EditText
+            android:id="@+id/inputMessage"
+            style="@style/edittext_style" />
+
+        <Button
+            android:id="@+id/send_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/newusr"
+            android:onClick="onClick_send"
+            android:text="发送"
+            android:textColor="#1e90ff" />
+    </LinearLayout>
+
+</LinearLayout>
