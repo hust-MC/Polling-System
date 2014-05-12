@@ -17,13 +17,17 @@ import android.os.Bundle;
 public class RecordActivity extends Activity
 {
 	int a,b,c=0;  //try
+	
+	AudioRecord audioRecord;
 	static boolean isRecording = false;
-	static AudioRecord audioRecord;
 	static RecordActivity audioContext = null;
-	AudioTrack audioTrack;
-	static short[] audioData;                           //store audio data
-	int bufferReadResult;
+	static int bufferReadResult;
 	static List<short[]> soundList = new ArrayList<short[]>();
+	
+	AudioTrack audioTrack;
+	short[] audioData;                           //store audio data
+	
+	
 	DataTransmission dataTransmission = new DataTransmission();
 	public short[] TxBuffer;
 
@@ -53,14 +57,15 @@ public class RecordActivity extends Activity
 
 			audioRecord.startRecording(); // 开始录音
 			audioTrack.play(); // 开始播放
-			while (isRecording)
+			int i=1000;
+			while (i-- != 0)
 			{
 				bufferReadResult = audioRecord.read(TxBuffer, 0, bufferSize); // 从麦克风读取音频
-				Log.d("MC",
-						String.valueOf(bufferSize) + " "
-								+ String.valueOf(bufferReadResult));
-				short[] tmp = new short[bufferReadResult];
-				soundList.add(tmp);
+				audioTrack.write(TxBuffer, 0, bufferReadResult);
+//				Log.d("MC",
+//						String.valueOf(bufferSize) + " "
+//								+ String.valueOf(bufferReadResult));
+//				soundList.add(TxBuffer);
 				
 				//				dataTransmission.send(TxBuffer);
 
@@ -79,9 +84,13 @@ public class RecordActivity extends Activity
 			}
 			try
 			{
-				audioData = new short[bufferReadResult*soundList.size()];
-				dataTransmission.send(RecordActivity.soundList);
+//				dataTransmission.send(soundList);
 				Log.d("MC", "send");
+				for (short[] audioData : soundList)
+				{
+					audioTrack.write(audioData, 0, bufferReadResult);
+					Log.d("MC", "send");
+				}
 			}
 			catch (Exception e)
 			{

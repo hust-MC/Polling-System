@@ -44,7 +44,7 @@ public class MainActivity extends Activity
 	static ChatAdapter chatAdapter;
 	DataTransmission dataTransmission = new DataTransmission();
 
-	List<short[]> revSound = new ArrayList<short[]>();     // Store Sound
+	Audio audio;
 
 	public void wiget_init()
 	{
@@ -209,14 +209,8 @@ public class MainActivity extends Activity
 						
 					case ClientThread.SOUND:
 
-						revSound = (List<short[]>) msg.obj;
-						final int SIZE = revSound.get(0).length;
-
-						for (int i = 0; i < revSound.size(); i++)
-						{
-							System.arraycopy(RecordActivity.audioData, i * SIZE,
-									revSound.get(i), 0, SIZE);
-						}
+						audio = new Audio((List<short[]>)msg.obj);
+						audio.audio_play();
 						break;
 					}
 				}
