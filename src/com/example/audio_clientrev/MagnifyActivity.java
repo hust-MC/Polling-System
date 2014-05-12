@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class Magnify extends Activity
+public class MagnifyActivity extends Activity
 {
 	private int imageWidth = 1000;
 	int i = 0;

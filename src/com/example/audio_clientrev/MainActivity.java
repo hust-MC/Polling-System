@@ -1,6 +1,8 @@
 package com.example.audio_clientrev;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -30,17 +32,19 @@ public class MainActivity extends Activity
 
 	final int STOP_RECORDING = 800;
 
-	ClientThread clientThread;                        	 //Create a new thread to process client service
+	ClientThread clientThread;                        	 // Create a new thread to process client service
 	EditText inputMessage;
 	Button send_bt;
 	ListView lv;
 	Button sound_bt;
-	Handler handler;                                     //Create a handler object to process UI update
-	String mContent;                                     //MContent means message content
-	Camera camera = new Camera();                        //Process camera service
+	Handler handler;                                     // Create a handler object to process UI update
+	String mContent;                                     // MContent means message content
+	Camera camera = new Camera();                        // Process camera service
 
 	static ChatAdapter chatAdapter;
 	DataTransmission dataTransmission = new DataTransmission();
+
+	List<short[]> revSound = new ArrayList<short[]>();     // Store Sound
 
 	public void wiget_init()
 	{
@@ -52,7 +56,9 @@ public class MainActivity extends Activity
 
 	public void setListener()
 	{
-		lv.setOnItemClickListener(new OnItemClickListener()                   //Set the listview's click event
+		lv.setOnItemClickListener(new OnItemClickListener()                   // Set the
+		// listview's click
+		// event
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -60,7 +66,8 @@ public class MainActivity extends Activity
 			{
 				if (ChatAdapter.chatList.get(position).Content instanceof Bitmap)
 				{
-					Intent intent = new Intent(MainActivity.this, Magnify.class);
+					Intent intent = new Intent(MainActivity.this,
+							MagnifyActivity.class);
 					intent.putExtra("position", position);
 					startActivity(intent);
 				}
@@ -74,39 +81,39 @@ public class MainActivity extends Activity
 			{
 				if (event.getAction() == MotionEvent.ACTION_DOWN)
 				{
-					Intent intent = new Intent(MainActivity.this, Audio.class);
+					Intent intent = new Intent(MainActivity.this,
+							RecordActivity.class);
 					startActivity(intent);
 				}
 				else if (event.getAction() == MotionEvent.ACTION_UP)
 				{
-					Audio.isRecording = false;
+					RecordActivity.isRecording = false;
 
-//					new Handler().postDelayed(new Runnable()
-//					{
-//						@Override
-//						public void run()                                  //create a thread to send sound message
-//						{
-//							new Thread(new Runnable()
-//							{
-//								@Override
-//								public void run()
-//								{
-//									try
-//									{
-//										dataTransmission.send(Audio.TxBuffer);
-//									}
-//									catch (IOException e)
-//									{
-//										e.printStackTrace();
-//									}
-//								}
-//							}).start();
-							
-							chatAdapter.addList("123", true);
-							
-						}
-//					}, STOP_RECORDING);
-//				}
+					// new Handler().postDelayed(new Runnable()
+					// {
+					// @Override
+					// public void run() //create a thread to send sound message
+					// {
+					// new Thread(new Runnable()
+					// {
+					// @Override
+					// public void run()
+					// {
+					// try
+					// {
+					// dataTransmission.send(Audio.TxBuffer);
+					// }
+					// catch (IOException e)
+					// {
+					// e.printStackTrace();
+					// }
+					// }
+					// }).start();
+
+					chatAdapter.addList("123", true);
+				}
+				// }, STOP_RECORDING);
+				// }
 				return true;
 			}
 		});
@@ -117,7 +124,7 @@ public class MainActivity extends Activity
 		Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
 	}
 
-	public void onClick_send(View view)                                     //Words message event
+	public void onClick_send(View view)                                     // Words message event
 	{
 		mContent = inputMessage.getText().toString();
 		chatAdapter.addList(mContent, true);
@@ -130,8 +137,7 @@ public class MainActivity extends Activity
 				try
 				{
 					dataTransmission.send(mContent);
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -154,7 +160,7 @@ public class MainActivity extends Activity
 
 	public void onClick_more(View view)
 	{
-		//		AlertDialog dialog = new AlertDialog();
+		// AlertDialog dialog = new AlertDialog();
 	}
 
 	@Override
@@ -164,7 +170,7 @@ public class MainActivity extends Activity
 		setContentView(R.layout.activity_main);
 
 		wiget_init();
-		setListener();                                                    //initial sound button
+		setListener();                                                    // initial sound button
 		chatAdapter = new ChatAdapter(this);
 		lv.setAdapter(chatAdapter);
 
@@ -188,16 +194,31 @@ public class MainActivity extends Activity
 				}
 				else
 				{
-					if (msg.obj instanceof byte[])
+					switch (msg.arg1)
 					{
-						camera.handlePhoto((byte[]) msg.obj);
-					}
-
-					else if (msg.obj instanceof String)
-					{
+					case ClientThread.WORD:
+						
 						chatAdapter.addList(msg.obj, false);
+						r.play();
+						break;
+						
+					case ClientThread.PIC:
+
+						camera.handlePhoto((byte[]) msg.obj);
+						break;
+						
+					case ClientThread.SOUND:
+
+						revSound = (List<short[]>) msg.obj;
+						final int SIZE = revSound.get(0).length;
+
+						for (int i = 0; i < revSound.size(); i++)
+						{
+							System.arraycopy(RecordActivity.audioData, i * SIZE,
+									revSound.get(i), 0, SIZE);
+						}
+						break;
 					}
-					r.play();
 				}
 
 			}

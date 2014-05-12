@@ -14,13 +14,14 @@ import android.media.MediaRecorder;
 import android.media.AudioRecord;
 import android.os.Bundle;
 
-public class Audio extends Activity
+public class RecordActivity extends Activity
 {
 	int a,b,c=0;  //try
 	static boolean isRecording = false;
 	static AudioRecord audioRecord;
-	static Audio audioContext = null;
+	static RecordActivity audioContext = null;
 	AudioTrack audioTrack;
+	static short[] audioData;                           //store audio data
 	int bufferReadResult;
 	static List<short[]> soundList = new ArrayList<short[]>();
 	DataTransmission dataTransmission = new DataTransmission();
@@ -60,7 +61,7 @@ public class Audio extends Activity
 								+ String.valueOf(bufferReadResult));
 				short[] tmp = new short[bufferReadResult];
 				soundList.add(tmp);
-
+				
 				//				dataTransmission.send(TxBuffer);
 
 				// System.arraycopy(buffer, 0, tmpBuf, 0, bufferReadResult); //
@@ -78,7 +79,8 @@ public class Audio extends Activity
 			}
 			try
 			{
-				dataTransmission.send(Audio.soundList);
+				audioData = new short[bufferReadResult*soundList.size()];
+				dataTransmission.send(RecordActivity.soundList);
 				Log.d("MC", "send");
 			}
 			catch (Exception e)
