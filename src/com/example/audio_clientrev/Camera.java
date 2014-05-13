@@ -60,7 +60,7 @@ public class Camera extends Activity
 			{
 				try
 				{
-					dataTransmission.send(pic);
+					dataTransmission.send(pic,DataTransmission.PIC);
 				}
 				catch (IOException e)
 				{

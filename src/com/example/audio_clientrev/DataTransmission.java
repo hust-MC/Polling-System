@@ -5,25 +5,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.StreamCorruptedException;
-import java.net.Socket;
 
 public class DataTransmission
 {
-	public DataTransmission()
-	{
-	}
-	
-	public void send(Object data) throws IOException
+	static final int WORD = 1;
+	static final int PIC = 2;
+	static final int SOUND = 3;
+
+	static int revType;
+
+	public void send(Object data,int type) throws IOException
 	{
 		OutputStream os = ClientThread.socket.getOutputStream();
 		ObjectOutputStream out = new ObjectOutputStream(os);
+		out.writeInt(type);
 		out.writeObject(data);
 		out.flush();
 	}
-	
-	public Object rev() throws StreamCorruptedException, IOException, ClassNotFoundException
+
+	public Object rev() throws StreamCorruptedException, IOException,
+			ClassNotFoundException
 	{
-		ObjectInputStream in = new ObjectInputStream(ClientThread.socket.getInputStream());
+		ObjectInputStream in = new ObjectInputStream(
+				ClientThread.socket.getInputStream());
+		revType = in.readInt();
 		return in.readObject();
 	}
+
 }

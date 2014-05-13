@@ -17,9 +17,6 @@ public class ClientThread implements Runnable
 
 	static final int CONNECT_FAILED = 1;                     // 初始化消息类型
 	static final int CONNECT_SUCCESS = 2;
-	static final int WORD = 3;
-	static final int PIC = 4;
-	static final int SOUND = 5;
 
 	static Socket socket;
 
@@ -37,10 +34,9 @@ public class ClientThread implements Runnable
 		this.handler = handler;
 	}
 
-	public void sendMsg(Object obj, int type)
+	public void sendMsg(Object obj)
 	{
 		Message msg = new Message();
-		msg.arg1 = type;
 		msg.obj = obj;
 		handler.sendMessage(msg);
 	}
@@ -56,7 +52,6 @@ public class ClientThread implements Runnable
 	public void run()
 	{
 		Log.d("MC", "RUN");
-		int type;
 		try
 		{
 			socket = new Socket();
@@ -70,21 +65,22 @@ public class ClientThread implements Runnable
 		{
 			while ((obj = dataTransmission.rev()) != null)                   // 判断数据类型
 			{
-				if (obj instanceof String)
-				{
-					type = WORD;
-					sendMsg(obj, type);
-				}
-				else if (obj instanceof byte[])
-				{
-					type = PIC;
-					sendMsg(obj, type);
-				}
-				else if (obj instanceof List<?>)
-				{
-					type = SOUND;
-					sendMsg(obj, type);
-				}
+				sendMsg(obj);
+				// if (obj instanceof String)
+				// {
+				// type = WORD;
+				// sendMsg(obj, type);
+				// }
+				// else if (obj instanceof byte[])
+				// {
+				// type = PIC;
+				// sendMsg(obj, type);
+				// }
+				// else if (obj instanceof List<?>)
+				// {
+				// type = SOUND;
+				// sendMsg(obj, type);
+				// }
 
 				// else if (obj instanceof List<?>)
 				// {

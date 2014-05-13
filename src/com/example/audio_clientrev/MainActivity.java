@@ -136,7 +136,7 @@ public class MainActivity extends Activity
 			{
 				try
 				{
-					dataTransmission.send(mContent);
+					dataTransmission.send(mContent,DataTransmission.WORD);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -156,11 +156,6 @@ public class MainActivity extends Activity
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	public void onClick_more(View view)
-	{
-		// AlertDialog dialog = new AlertDialog();
 	}
 
 	@Override
@@ -194,20 +189,20 @@ public class MainActivity extends Activity
 				}
 				else
 				{
-					switch (msg.arg1)
+					switch (DataTransmission.revType)
 					{
-					case ClientThread.WORD:
+					case DataTransmission.WORD:
 						
 						chatAdapter.addList(msg.obj, false);
 						r.play();
 						break;
 						
-					case ClientThread.PIC:
+					case DataTransmission.PIC:
 
 						camera.handlePhoto((byte[]) msg.obj);
 						break;
 						
-					case ClientThread.SOUND:
+					case DataTransmission.SOUND:
 
 						audio = new Audio((List<short[]>)msg.obj);
 						audio.audio_play();
