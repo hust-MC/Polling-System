@@ -268,7 +268,7 @@ public class MainActivity extends Activity
 
 		case 3:
 			new AlertDialog.Builder(this).setTitle("关于")
-					.setMessage("版本: 即时通信(V1.6)").setNegativeButton("确定", null)
+					.setMessage("版本: 即时通信(V2.0)").setNegativeButton("确定", null)
 					.show();
 			break;
 
