@@ -34,26 +34,35 @@
         android:background="#33aa0000" >
 
         <Button
-            android:layout_margin="2dp"
-            android:id="@+id/more_bt"
+            android:id="@+id/sound_bt"
             android:layout_width="50dp"
             android:layout_height="match_parent"
+            android:layout_margin="2dp"
             android:background="@drawable/sound"
-            android:onClick="onClick_more" />
+            android:enabled="false" />
 
-        <EditText
-            android:id="@+id/inputMessage"
-            style="@style/edittext_style" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/send_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/newusr"
-            android:onClick="onClick_send"
-            android:text="发送"
-            android:textColor="#1e90ff" />
+            <Button
+                android:id="@+id/send_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/newusr"
+                android:onClick="onClick_send"
+                android:text="发送"
+                android:enabled="false"
+                android:textColor="#1e90ff" />
+
+            <EditText
+                android:id="@+id/inputMessage"
+                android:layout_toLeftOf="@id/send_bt"
+                style="@style/edittext_style" />
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

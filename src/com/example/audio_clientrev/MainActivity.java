@@ -1,8 +1,7 @@
 package com.example.audio_clientrev;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,6 +15,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -51,7 +51,7 @@ public class MainActivity extends Activity
 		lv = (ListView) findViewById(R.id.lv);
 		inputMessage = (EditText) findViewById(R.id.inputMessage);
 		send_bt = (Button) findViewById(R.id.send_bt);
-		sound_bt = (Button) findViewById(R.id.more_bt);
+		sound_bt = (Button) findViewById(R.id.sound_bt);
 	}
 
 	public void setListener()
@@ -64,12 +64,35 @@ public class MainActivity extends Activity
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				if (ChatAdapter.chatList.get(position).Content instanceof Bitmap)
+				if (ChatAdapter.chatList.get(position).type == ChatAdapter.PIC)
 				{
 					Intent intent = new Intent(MainActivity.this,
 							MagnifyActivity.class);
 					intent.putExtra("position", position);
 					startActivity(intent);
+				}
+				else
+				{
+					File file = new File(Environment
+							.getExternalStorageDirectory()
+							+ "/mc/voice/"
+							+ String.valueOf(position) + ".amr");
+					try
+					{
+						new Audio().play_audio(file);
+					} catch (IllegalArgumentException e)
+					{
+						e.printStackTrace();
+					} catch (SecurityException e)
+					{
+						e.printStackTrace();
+					} catch (IllegalStateException e)
+					{
+						e.printStackTrace();
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -89,31 +112,11 @@ public class MainActivity extends Activity
 				{
 					RecordActivity.isRecording = false;
 
-					// new Handler().postDelayed(new Runnable()
-					// {
-					// @Override
-					// public void run() //create a thread to send sound message
-					// {
-					// new Thread(new Runnable()
-					// {
-					// @Override
-					// public void run()
-					// {
-					// try
-					// {
-					// dataTransmission.send(Audio.TxBuffer);
-					// }
-					// catch (IOException e)
-					// {
-					// e.printStackTrace();
-					// }
-					// }
-					// }).start();
-
-					chatAdapter.addList("123", true);
+					Bitmap bitmap = BitmapFactory.decodeResource(
+							getResources(), R.drawable.playaudio);
+					chatAdapter.addList(bitmap, ChatAdapter.Tx,
+							ChatAdapter.SOUND);
 				}
-				// }, STOP_RECORDING);
-				// }
 				return true;
 			}
 		});
@@ -127,7 +130,7 @@ public class MainActivity extends Activity
 	public void onClick_send(View view)                                     // Words message event
 	{
 		mContent = inputMessage.getText().toString();
-		chatAdapter.addList(mContent, true);
+		chatAdapter.addList(mContent, ChatAdapter.Tx, ChatAdapter.WORD);
 
 		new Thread(new Runnable()
 		{
@@ -136,7 +139,7 @@ public class MainActivity extends Activity
 			{
 				try
 				{
-					dataTransmission.send(mContent, DataTransmission.WORD);
+					dataTransmission.send(mContent, ChatAdapter.WORD);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -186,27 +189,35 @@ public class MainActivity extends Activity
 				else if (msg.arg1 == ClientThread.CONNECT_SUCCESS)
 				{
 					showToast("连接成功");
+					sound_bt.setEnabled(true);
+					send_bt.setEnabled(true);
+					
 				}
 				else
 				{
 					switch (DataTransmission.revType)
 					{
-					case DataTransmission.WORD:
+					case ChatAdapter.WORD:
 
-						chatAdapter.addList(msg.obj, false);
+						chatAdapter.addList(msg.obj, ChatAdapter.Rx,
+								ChatAdapter.WORD);
 						r.play();
 						break;
 
-					case DataTransmission.PIC:
+					case ChatAdapter.PIC:
 
 						camera.handlePhoto((byte[]) msg.obj);
 						break;
 
-					case DataTransmission.SOUND:
+					case ChatAdapter.SOUND:
 
 						try
 						{
 							audio.handle_audio((byte[]) msg.obj);
+							Bitmap bitmap = BitmapFactory.decodeResource(
+									getResources(), R.drawable.playaudio);
+							chatAdapter.addList(bitmap, ChatAdapter.Rx,
+									ChatAdapter.SOUND);
 						} catch (IOException e)
 						{
 							e.printStackTrace();
@@ -214,7 +225,6 @@ public class MainActivity extends Activity
 						break;
 					}
 				}
-
 			}
 		};
 	}
@@ -258,7 +268,7 @@ public class MainActivity extends Activity
 
 		case 3:
 			new AlertDialog.Builder(this).setTitle("关于")
-					.setMessage("版本: 即时通信(V1.4)").setNegativeButton("确定", null)
+					.setMessage("版本: 即时通信(V1.6)").setNegativeButton("确定", null)
 					.show();
 			break;
 

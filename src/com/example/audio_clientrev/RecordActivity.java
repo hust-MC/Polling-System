@@ -3,10 +3,7 @@ package com.example.audio_clientrev;
 import java.io.File;
 import java.io.IOException;
 
-import android.util.Log;
 import android.app.Activity;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +14,6 @@ public class RecordActivity extends Activity
 
 	public File file;
 	public static MediaRecorder mediaRecorder;
-	public MediaPlayer mediaPlayer;
 
 	public void record() throws IllegalStateException, IOException
 	{
@@ -39,27 +35,10 @@ public class RecordActivity extends Activity
 		mediaRecorder.prepare();
 		mediaRecorder.start();
 
-		while (isRecording)
-		{
-			
-		}
+		while (isRecording);
 
 		mediaRecorder.stop();
 		mediaRecorder.release();
-
-		mediaPlayer = new MediaPlayer();
-		mediaPlayer.setDataSource(file.getAbsolutePath());
-		mediaPlayer.prepare();
-		mediaPlayer.start();
-		
-		mediaPlayer.setOnCompletionListener(new OnCompletionListener()
-		{
-			@Override
-			public void onCompletion(MediaPlayer mp)
-			{
-				Log.d("MC","completion");
-			}
-		}); 
 	}
 
 	@Override

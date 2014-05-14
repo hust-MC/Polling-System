@@ -66,33 +66,6 @@ public class ClientThread implements Runnable
 			while ((obj = dataTransmission.rev()) != null)                   // 判断数据类型
 			{
 				sendMsg(obj);
-				// if (obj instanceof String)
-				// {
-				// type = WORD;
-				// sendMsg(obj, type);
-				// }
-				// else if (obj instanceof byte[])
-				// {
-				// type = PIC;
-				// sendMsg(obj, type);
-				// }
-				// else if (obj instanceof List<?>)
-				// {
-				// type = SOUND;
-				// sendMsg(obj, type);
-				// }
-
-				// else if (obj instanceof List<?>)
-				// {
-				// revSound = (List<short[]>) obj;
-				// final int SIZE = revSound.get(0).length;
-				//
-				// for (int i = 0; i < revSound.size(); i++)
-				// {
-				// System.arraycopy(AudioActivity.audioData, i * SIZE,
-				// revSound.get(i), 0, SIZE);
-				// }
-				// }
 			}
 		} catch (Exception e)
 		{

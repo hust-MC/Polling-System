@@ -5,11 +5,9 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +17,13 @@ public class ChatAdapter extends BaseAdapter
 {
 	private Context context;
 	static List<Message> chatList = new ArrayList<Message>();
+
+	final static boolean Tx = true;
+	final static boolean Rx = false;
+	static final int WORD = 1;
+	static final int PIC = 2;
+	static final int SOUND = 3;
+
 
 	public ChatAdapter(Context context)
 	{
@@ -52,26 +57,41 @@ public class ChatAdapter extends BaseAdapter
 
 		if ((chatList.get(position)).Tx) 												// ready to transmit
 		{
-			if (chatList.get(position).Content instanceof Bitmap) 						// transmit bitmap
+			switch (chatList.get(position).type)
 			{
-				linearLayout = (LinearLayout) layoutInflater.inflate(
-						R.layout.picture_r, null);
-				ImageView chatView = (ImageView) linearLayout
-						.findViewById(R.id.picture_r);
-				chatView.setImageBitmap((Bitmap) chatList.get(position).Content);
-			}
-			else if (chatList.get(position).Content instanceof String)					 //transmit string
-			{
+			case ChatAdapter.WORD:
+
 				linearLayout = (LinearLayout) layoutInflater.inflate(
 						R.layout.message_r, null);
-				TextView chatView = (TextView) linearLayout
+				TextView textView = (TextView) linearLayout
 						.findViewById(R.id.chatView_r);
-				chatView.setText(String.valueOf(chatList.get(position).Content));
+				textView.setText(String.valueOf(chatList.get(position).Content));
+				break;
+
+			case ChatAdapter.PIC:
+
+				linearLayout = (LinearLayout) layoutInflater.inflate(
+						R.layout.picture_r, null);
+				ImageView imageView_pic = (ImageView) linearLayout
+						.findViewById(R.id.picture_r);
+				imageView_pic.setImageBitmap((Bitmap) chatList.get(position).Content);
+				break;
+				
+			case ChatAdapter.SOUND:
+				
+				linearLayout = (LinearLayout) layoutInflater.inflate(
+						R.layout.picture_r, null);
+				ImageView imageView_sound = (ImageView) linearLayout
+						.findViewById(R.id.picture_r);
+				imageView_sound.setImageBitmap((Bitmap) chatList.get(position).Content);
+				break;
 			}
 		}
-		else																			// ready to receive		
+		else
+		// ready to receive
 		{
-			if (chatList.get(position).Content instanceof Bitmap)                          //receive bitmap
+			if (chatList.get(position).Content instanceof Bitmap)                          // receive
+			// bitmap
 			{
 				linearLayout = (LinearLayout) layoutInflater.inflate(
 						R.layout.picture_l, null);
@@ -79,7 +99,8 @@ public class ChatAdapter extends BaseAdapter
 						.findViewById(R.id.picture_l);
 				chatView.setImageBitmap((Bitmap) chatList.get(position).Content);
 			}
-			else                                                                            // receive string
+			else
+			// receive string
 			{
 				linearLayout = (LinearLayout) layoutInflater.inflate(
 						R.layout.message_l, null);
@@ -91,22 +112,24 @@ public class ChatAdapter extends BaseAdapter
 		return linearLayout;
 	}
 
-	public void addList(Object content, Boolean Tx)
+	public void addList(Object content, Boolean Tx, int type)
 	{
-		Message message = new Message(content, Tx);
+		Message message = new Message(content, Tx, type);
 		chatList.add(message);
 		notifyDataSetChanged();
 	}
 
-	 class Message                       //declare a Message class to store Message
+	class Message                       // declare a Message class to store Message
 	{
-		 Object Content;
-		 Boolean Tx;
+		Object Content;
+		Boolean Tx;
+		int type;
 
-		public Message(Object Content, Boolean Tx)
+		public Message(Object Content, Boolean Tx, int type)
 		{
 			this.Tx = Tx;
 			this.Content = Content;
+			this.type = type;
 		}
 	}
 }

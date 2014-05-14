@@ -9,13 +9,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class MagnifyActivity extends Activity
 {
@@ -78,7 +75,6 @@ public class MagnifyActivity extends Activity
 		setContentView(R.layout.magnify);
 
 		 Intent intent = getIntent();
-//		
 		int position= intent.getExtras().getInt("position");
 
 		File file = new File(Environment.getExternalStorageDirectory()

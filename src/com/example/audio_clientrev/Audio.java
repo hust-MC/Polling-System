@@ -2,22 +2,15 @@ package com.example.audio_clientrev;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Environment;
 import android.util.Log;
@@ -30,12 +23,8 @@ public class Audio
 	DataTransmission dataTransmission = new DataTransmission();
 
 	File send_file, rev_file, dir;
-//	FileInputStream fis;
-//	FileOutputStream fos;
-//	BufferedOutputStream bos;
-//	ByteArrayOutputStream baos;
 
-	byte[] data, tem;
+	byte[] data;
 	public MediaPlayer mediaPlayer;
 
 	int cursor;
@@ -49,16 +38,14 @@ public class Audio
 		FileInputStream fis = new FileInputStream(send_file);
 		BufferedInputStream bis= new BufferedInputStream(fis); 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
-		tem = new byte[(int)send_file.length()];
+		data = new byte[(int)send_file.length()];
 
-		while ((cursor = bis.read(tem)) != -1)
+		while ((cursor = bis.read(data)) != -1)
 		{
-//			baos.write(tem, 0, cursor);
 		}
 			fis.close();
 			baos.close();
-//		data = baos.toByteArray();
-		dataTransmission.send(tem, DataTransmission.SOUND);
+		dataTransmission.send(data, ChatAdapter.SOUND);
 	}
 
 	public void handle_audio(byte[] data) throws IOException
@@ -82,14 +69,14 @@ public class Audio
 		{
 			bos.close();
 		}
-		play_audio();
+		
 	}
 
-	public void play_audio() throws IllegalArgumentException,
+	public void play_audio(File file) throws IllegalArgumentException,
 			SecurityException, IllegalStateException, IOException
 	{
 		mediaPlayer = new MediaPlayer();
-		mediaPlayer.setDataSource(rev_file.getAbsolutePath());
+		mediaPlayer.setDataSource(file.getAbsolutePath());
 		mediaPlayer.prepare();
 		mediaPlayer.start();
 
@@ -101,6 +88,6 @@ public class Audio
 				Log.d("MC", "completion");
 			}
 		});
-		MainActivity.chatAdapter.addList("record", false);
 	}
+
 }

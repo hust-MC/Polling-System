@@ -8,10 +8,7 @@ import java.io.StreamCorruptedException;
 
 public class DataTransmission
 {
-	static final int WORD = 1;
-	static final int PIC = 2;
-	static final int SOUND = 3;
-
+	
 	static int revType;
 
 	public void send(Object data,int type) throws IOException

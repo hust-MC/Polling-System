@@ -8,14 +8,10 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 public class Camera extends Activity
@@ -27,7 +23,6 @@ public class Camera extends Activity
 	{
 		int size = 0;
 
-		Log.d("MC", "pic");
 		File file = new File(Environment.getExternalStorageDirectory() + "/mc/image/"
 				+ String.valueOf(MainActivity.chatAdapter.getCount()) + ".png");
 		FileInputStream fis = null;
@@ -50,8 +45,7 @@ public class Camera extends Activity
 
 		final Bitmap cameraBitmap = BitmapFactory.decodeFile(file
 				.getAbsolutePath());
-		Log.d("MC", "file");
-		MainActivity.chatAdapter.addList(cameraBitmap, true);
+		MainActivity.chatAdapter.addList(cameraBitmap, ChatAdapter.Tx,ChatAdapter.PIC);
 
 		new Thread(new Runnable()
 		{
@@ -60,11 +54,10 @@ public class Camera extends Activity
 			{
 				try
 				{
-					dataTransmission.send(pic,DataTransmission.PIC);
+					dataTransmission.send(pic,ChatAdapter.PIC);
 				}
 				catch (IOException e)
 				{
-					Log.d("MC", "IOexception");
 					e.printStackTrace();
 				}
 			}
@@ -103,7 +96,7 @@ public class Camera extends Activity
 		Bitmap bitmap = BitmapFactory.decodeByteArray(picByte, 0,
 				picByte.length);
 
-		MainActivity.chatAdapter.addList(bitmap, false);
+		MainActivity.chatAdapter.addList(bitmap, ChatAdapter.Rx,ChatAdapter.PIC);
 		FileOutputStream out = null;
 		try
 		{
