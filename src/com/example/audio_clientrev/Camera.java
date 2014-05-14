@@ -28,7 +28,7 @@ public class Camera extends Activity
 		int size = 0;
 
 		Log.d("MC", "pic");
-		File file = new File(Environment.getExternalStorageDirectory() + "/mc/image"
+		File file = new File(Environment.getExternalStorageDirectory() + "/mc/image/"
 				+ String.valueOf(MainActivity.chatAdapter.getCount()) + ".png");
 		FileInputStream fis = null;
 		try
@@ -77,7 +77,7 @@ public class Camera extends Activity
 		try
 		{
 			File dir = new File(Environment.getExternalStorageDirectory()
-					+ "/mc/image");
+					+ "/mc/image/");
 			if (!dir.exists())
 				dir.mkdirs();
 
@@ -93,7 +93,7 @@ public class Camera extends Activity
 
 	public void handlePhoto(byte[] picByte)
 	{
-		File dir = new File(Environment.getExternalStorageDirectory() + "/mc/image");
+		File dir = new File(Environment.getExternalStorageDirectory() + "/mc/image/");
 		if (!dir.exists())
 		{
 			dir.mkdirs();

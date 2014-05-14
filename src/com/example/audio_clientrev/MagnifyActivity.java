@@ -82,7 +82,7 @@ public class MagnifyActivity extends Activity
 		int position= intent.getExtras().getInt("position");
 
 		File file = new File(Environment.getExternalStorageDirectory()
-				+ "/mc/" + String.valueOf(position) + ".png");
+				+ "/mc/image/" + String.valueOf(position) + ".png");
 		Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 				
 		imageView = (ImageView) this.findViewById(R.id.mag_pic);

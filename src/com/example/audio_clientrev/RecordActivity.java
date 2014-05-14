@@ -2,20 +2,12 @@ package com.example.audio_clientrev;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.util.Log;
-import android.view.View.OnCreateContextMenuListener;
 import android.app.Activity;
-import android.content.Context;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
-import android.media.AudioRecord;
 import android.os.Bundle;
 import android.os.Environment;
 
