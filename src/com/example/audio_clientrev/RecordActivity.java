@@ -1,5 +1,7 @@
 package com.example.audio_clientrev;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,101 +12,62 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.media.AudioRecord;
 import android.os.Bundle;
+import android.os.Environment;
 
 public class RecordActivity extends Activity
 {
-	int a,b,c=0;  //try
-	
-	AudioRecord audioRecord;
 	static boolean isRecording = false;
-	static RecordActivity audioContext = null;
-	static int bufferReadResult;
-	static List<short[]> soundList = new ArrayList<short[]>();
-	
-	AudioTrack audioTrack;
-	short[] audioData;                           //store audio data
-	
-	
-	DataTransmission dataTransmission = new DataTransmission();
-	public short[] TxBuffer;
 
-	public void record()
+	public File file;
+	public static MediaRecorder mediaRecorder;
+	public MediaPlayer mediaPlayer;
+
+	public void record() throws IllegalStateException, IOException
 	{
-		int frequency = 11025;
-		int channelConfiguration = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-		int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
+		isRecording = true;
+		File dir = new File(Environment.getExternalStorageDirectory()
+				+ "/mc/voice");
+		if (!dir.exists())
+			dir.mkdirs();
 
-		try
+		file = new File(dir,
+				String.valueOf(MainActivity.chatAdapter.getCount()) + ".mp3");
+
+		mediaRecorder = new MediaRecorder();
+		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+		mediaRecorder.setOutputFile(file.getAbsolutePath());
+
+		mediaRecorder.prepare();
+		mediaRecorder.start();
+
+		while (isRecording)
 		{
-			int bufferSize = AudioRecord.getMinBufferSize(frequency,
-					channelConfiguration, audioEncoding);
-			audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
-					frequency, channelConfiguration, audioEncoding, bufferSize);
-
-			isRecording = true;
-
-			int trackSize = AudioTrack.getMinBufferSize(frequency,
-					channelConfiguration, AudioFormat.ENCODING_PCM_16BIT);
-			audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 11025,
-					AudioFormat.CHANNEL_CONFIGURATION_MONO,
-					AudioFormat.ENCODING_PCM_16BIT, trackSize,
-					AudioTrack.MODE_STREAM);
-
-			TxBuffer = new short[bufferSize];
-
-			audioRecord.startRecording(); // 开始录音
-			audioTrack.play(); // 开始播放
-			int i=1000;
-			while (i-- != 0)
-			{
-				bufferReadResult = audioRecord.read(TxBuffer, 0, bufferSize); // 从麦克风读取音频
-				audioTrack.write(TxBuffer, 0, bufferReadResult);
-//				Log.d("MC",
-//						String.valueOf(bufferSize) + " "
-//								+ String.valueOf(bufferReadResult));
-//				soundList.add(TxBuffer);
-				
-				//				dataTransmission.send(TxBuffer);
-
-				// System.arraycopy(buffer, 0, tmpBuf, 0, bufferReadResult); //
-				// 复制文件
-				// audioTrack.write(TxBuffer, 0, bufferReadResult);
-				//				new Thread(new Runnable()
-				//				{
-				//					@Override
-				//					public void run()
-				//					{
-				//						audioTrack.write(ClientThread.audioData, 0,
-				//								bufferReadResult);
-				//					}
-				//				}).start();
-			}
-			try
-			{
-//				dataTransmission.send(soundList);
-				Log.d("MC", "send");
-				for (short[] audioData : soundList)
-				{
-					audioTrack.write(audioData, 0, bufferReadResult);
-					Log.d("MC", "send");
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-
-			audioTrack.stop();
-			audioRecord.stop();
-			finish();
+			
 		}
-		catch (Throwable t)
+
+		mediaRecorder.stop();
+		mediaRecorder.release();
+
+		mediaPlayer = new MediaPlayer();
+		mediaPlayer.setDataSource(file.getAbsolutePath());
+		mediaPlayer.prepare();
+		mediaPlayer.start();
+		
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener()
 		{
-			Log.e("AudioRecord", "Recording Failed");
-		}
+			@Override
+			public void onCompletion(MediaPlayer mp)
+			{
+				Log.d("MC","completion");
+			}
+		}); 
 	}
 
 	@Override
@@ -112,14 +75,23 @@ public class RecordActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audio_record);
-		soundList.clear();
-		audioContext = this;
 		new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				record();
+				try
+				{
+					record();
+					new Audio().send_audio();
+					finish();
+				} catch (IllegalStateException e)
+				{
+					e.printStackTrace();
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}

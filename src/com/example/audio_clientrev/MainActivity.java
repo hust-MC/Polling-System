@@ -40,11 +40,11 @@ public class MainActivity extends Activity
 	Handler handler;                                     // Create a handler object to process UI update
 	String mContent;                                     // MContent means message content
 	Camera camera = new Camera();                        // Process camera service
-
+	
 	static ChatAdapter chatAdapter;
 	DataTransmission dataTransmission = new DataTransmission();
 
-	Audio audio;
+	Audio audio = new Audio();
 
 	public void wiget_init()
 	{
@@ -203,9 +203,14 @@ public class MainActivity extends Activity
 						break;
 						
 					case DataTransmission.SOUND:
-
-						audio = new Audio((List<short[]>)msg.obj);
-						audio.audio_play();
+						
+						try
+						{
+							audio.handle_audio((byte[])msg.obj);
+						} catch (IOException e)
+						{
+							e.printStackTrace();
+						}
 						break;
 					}
 				}
