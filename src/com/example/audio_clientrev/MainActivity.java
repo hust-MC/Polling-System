@@ -40,7 +40,7 @@ public class MainActivity extends Activity
 	Handler handler;                                     // Create a handler object to process UI update
 	String mContent;                                     // MContent means message content
 	Camera camera = new Camera();                        // Process camera service
-	
+
 	static ChatAdapter chatAdapter;
 	DataTransmission dataTransmission = new DataTransmission();
 
@@ -136,7 +136,7 @@ public class MainActivity extends Activity
 			{
 				try
 				{
-					dataTransmission.send(mContent,DataTransmission.WORD);
+					dataTransmission.send(mContent, DataTransmission.WORD);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -192,21 +192,21 @@ public class MainActivity extends Activity
 					switch (DataTransmission.revType)
 					{
 					case DataTransmission.WORD:
-						
+
 						chatAdapter.addList(msg.obj, false);
 						r.play();
 						break;
-						
+
 					case DataTransmission.PIC:
 
 						camera.handlePhoto((byte[]) msg.obj);
 						break;
-						
+
 					case DataTransmission.SOUND:
-						
+
 						try
 						{
-							audio.handle_audio((byte[])msg.obj);
+							audio.handle_audio((byte[]) msg.obj);
 						} catch (IOException e)
 						{
 							e.printStackTrace();

@@ -36,7 +36,7 @@ public class RecordActivity extends Activity
 			dir.mkdirs();
 
 		file = new File(dir,
-				String.valueOf(MainActivity.chatAdapter.getCount()) + ".mp3");
+				String.valueOf(MainActivity.chatAdapter.getCount()) + ".amr");
 
 		mediaRecorder = new MediaRecorder();
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);

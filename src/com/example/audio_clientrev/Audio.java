@@ -30,10 +30,10 @@ public class Audio
 	DataTransmission dataTransmission = new DataTransmission();
 
 	File send_file, rev_file, dir;
-	FileInputStream fis;
-	FileOutputStream fos;
-	BufferedOutputStream bos;
-	ByteArrayOutputStream baos;
+//	FileInputStream fis;
+//	FileOutputStream fos;
+//	BufferedOutputStream bos;
+//	ByteArrayOutputStream baos;
 
 	byte[] data, tem;
 	public MediaPlayer mediaPlayer;
@@ -44,21 +44,21 @@ public class Audio
 	{
 		dir = new File(Environment.getExternalStorageDirectory() + "/mc/voice");
 		send_file = new File(dir, String.valueOf(MainActivity.chatAdapter
-				.getCount() - 1) + ".mp3");
+				.getCount() - 1) + ".amr");
 
-		fis = new FileInputStream(send_file);
-		baos = new ByteArrayOutputStream(1000);
-		tem = new byte[1000];
+		FileInputStream fis = new FileInputStream(send_file);
+		BufferedInputStream bis= new BufferedInputStream(fis); 
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
+		tem = new byte[(int)send_file.length()];
 
-		while ((cursor = fis.read(tem)) != -1)
+		while ((cursor = bis.read(tem)) != -1)
 		{
-			baos.write(tem, 0, cursor);
+//			baos.write(tem, 0, cursor);
 		}
-//		fis.close();
-//		bis.close();
-//		baos.close();
-		data = baos.toByteArray();
-		dataTransmission.send(data, DataTransmission.SOUND);
+			fis.close();
+			baos.close();
+//		data = baos.toByteArray();
+		dataTransmission.send(tem, DataTransmission.SOUND);
 	}
 
 	public void handle_audio(byte[] data) throws IOException
@@ -69,10 +69,19 @@ public class Audio
 			dir.mkdirs();
 		}
 		rev_file = new File(dir, String.valueOf(MainActivity.chatAdapter
-				.getCount()) + ".mp3");
-		fos = new FileOutputStream(rev_file);
-		bos = new BufferedOutputStream(fos);
+				.getCount()) + ".amr");
+		FileOutputStream fos = new FileOutputStream(rev_file);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
 		bos.write(data);
+		bos.flush();
+		if (fos != null)
+		{
+			fos.close();
+		}
+		if (bos != null)
+		{
+			bos.close();
+		}
 		play_audio();
 	}
 
