@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class ChatAdapter extends BaseAdapter
 	static final int PIC = 2;
 	static final int SOUND = 3;
 
+	Time time = new Time();
+	String minute = null;
 
 	public ChatAdapter(Context context)
 	{
@@ -54,6 +57,16 @@ public class ChatAdapter extends BaseAdapter
 		LayoutInflater layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout linearLayout = null;
+		time.setToNow();
+
+		if (time.minute < 10)
+		{
+			minute = "0" + time.minute;
+		}
+		else
+		{
+			minute = time.minute + "";
+		}
 
 		if ((chatList.get(position)).Tx) 												// ready to transmit
 		{
@@ -65,6 +78,11 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.message_r, null);
 				TextView textView = (TextView) linearLayout
 						.findViewById(R.id.chatView_r);
+				TextView now = (TextView) linearLayout
+						.findViewById(R.id.ttime_r);
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
+
 				textView.setText(String.valueOf(chatList.get(position).Content));
 				break;
 
@@ -74,16 +92,18 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.picture_r, null);
 				ImageView imageView_pic = (ImageView) linearLayout
 						.findViewById(R.id.picture_r);
-				imageView_pic.setImageBitmap((Bitmap) chatList.get(position).Content);
+				imageView_pic
+						.setImageBitmap((Bitmap) chatList.get(position).Content);
 				break;
-				
+
 			case ChatAdapter.SOUND:
-				
+
 				linearLayout = (LinearLayout) layoutInflater.inflate(
 						R.layout.picture_r, null);
 				ImageView imageView_sound = (ImageView) linearLayout
 						.findViewById(R.id.picture_r);
-				imageView_sound.setImageBitmap((Bitmap) chatList.get(position).Content);
+				imageView_sound
+						.setImageBitmap((Bitmap) chatList.get(position).Content);
 				break;
 			}
 		}

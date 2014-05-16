@@ -33,6 +33,7 @@ public class Camera extends Activity
 			System.out.println("size = " + size);
 			pic = new byte[size];
 			fis.read(pic);
+			fis.close();
 		}
 		catch (FileNotFoundException e1)
 		{

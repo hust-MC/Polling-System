@@ -37,14 +37,13 @@ public class Audio
 
 		FileInputStream fis = new FileInputStream(send_file);
 		BufferedInputStream bis= new BufferedInputStream(fis); 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
 		data = new byte[(int)send_file.length()];
 
 		while ((cursor = bis.read(data)) != -1)
 		{
 		}
 			fis.close();
-			baos.close();
+			bis.close();
 		dataTransmission.send(data, ChatAdapter.SOUND);
 	}
 

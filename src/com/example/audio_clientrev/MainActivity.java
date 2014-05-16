@@ -191,7 +191,6 @@ public class MainActivity extends Activity
 					showToast("连接成功");
 					sound_bt.setEnabled(true);
 					send_bt.setEnabled(true);
-					
 				}
 				else
 				{
