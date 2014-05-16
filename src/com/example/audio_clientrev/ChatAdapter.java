@@ -57,6 +57,7 @@ public class ChatAdapter extends BaseAdapter
 		LayoutInflater layoutInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout linearLayout = null;
+		TextView now;
 		time.setToNow();
 
 		if (time.minute < 10)
@@ -78,12 +79,11 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.message_r, null);
 				TextView textView = (TextView) linearLayout
 						.findViewById(R.id.chatView_r);
-				TextView now = (TextView) linearLayout
-						.findViewById(R.id.ttime_r);
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
-						+ ":" + minute);
+				now = (TextView) linearLayout.findViewById(R.id.ttime_r);
 
 				textView.setText(String.valueOf(chatList.get(position).Content));
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
 				break;
 
 			case ChatAdapter.PIC:
@@ -92,8 +92,12 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.picture_r, null);
 				ImageView imageView_pic = (ImageView) linearLayout
 						.findViewById(R.id.picture_r);
+				now = (TextView) linearLayout.findViewById(R.id.ptime_r);
+				
 				imageView_pic
 						.setImageBitmap((Bitmap) chatList.get(position).Content);
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
 				break;
 
 			case ChatAdapter.SOUND:
@@ -102,8 +106,12 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.picture_r, null);
 				ImageView imageView_sound = (ImageView) linearLayout
 						.findViewById(R.id.picture_r);
+				now = (TextView) linearLayout.findViewById(R.id.ptime_r);
+				
 				imageView_sound
 						.setImageBitmap((Bitmap) chatList.get(position).Content);
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
 				break;
 			}
 		}
@@ -117,7 +125,11 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.picture_l, null);
 				ImageView chatView = (ImageView) linearLayout
 						.findViewById(R.id.picture_l);
+				now = (TextView) linearLayout.findViewById(R.id.ptime_l);
+				
 				chatView.setImageBitmap((Bitmap) chatList.get(position).Content);
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
 			}
 			else
 			// receive string
@@ -126,7 +138,11 @@ public class ChatAdapter extends BaseAdapter
 						R.layout.message_l, null);
 				TextView chatView = (TextView) linearLayout
 						.findViewById(R.id.chatView_l);
+				now = (TextView) linearLayout.findViewById(R.id.ttime_l);
+				
 				chatView.setText(String.valueOf(chatList.get(position).Content));
+				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+						+ ":" + minute);
 			}
 		}
 		return linearLayout;
