@@ -57,21 +57,20 @@ public class MainActivity extends Activity
 	public void setListener()
 	{
 		lv.setOnItemClickListener(new OnItemClickListener()                   // Set the
-		// listview's click
-		// event
+																			// listview's click event
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				if (ChatAdapter.chatList.get(position).type == ChatAdapter.PIC)
+				if (ChatAdapter.chatList.get(position).type == ChatAdapter.PIC)  //handle picture
 				{
 					Intent intent = new Intent(MainActivity.this,
 							MagnifyActivity.class);
 					intent.putExtra("position", position);
 					startActivity(intent);
 				}
-				else
+				else                                                          //handle voice
 				{
 					File file = new File(Environment
 							.getExternalStorageDirectory()
@@ -97,7 +96,7 @@ public class MainActivity extends Activity
 			}
 		});
 
-		sound_bt.setOnTouchListener(new OnTouchListener()
+		sound_bt.setOnTouchListener(new OnTouchListener()                      //set sound-send button
 		{
 			@Override
 			public boolean onTouch(View v, MotionEvent event)
