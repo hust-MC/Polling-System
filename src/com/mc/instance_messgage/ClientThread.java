@@ -1,4 +1,4 @@
-package com.example.audio_clientrev;
+package com.mc.instance_messgage;
 
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -55,7 +55,7 @@ public class ClientThread implements Runnable
 		try
 		{
 			socket = new Socket();
-			socket.connect(new InetSocketAddress("115.29.243.38", PORT), 3000);
+			socket.connect(new InetSocketAddress("192.168.0.119", PORT), 3000);
 			sendMsg(CONNECT_SUCCESS);
 		} catch (Exception e)
 		{

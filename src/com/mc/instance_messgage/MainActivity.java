@@ -1,7 +1,9 @@
-package com.example.audio_clientrev;
+package com.mc.instance_messgage;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.example.audio_clientrev.R;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -30,6 +32,8 @@ public class MainActivity extends Activity
 {
 	static int i = 0;
 
+	boolean logFlag = false;
+	
 	final int STOP_RECORDING = 800;
 
 	ClientThread clientThread;                        	 // Create a new thread to process client service
@@ -128,6 +132,11 @@ public class MainActivity extends Activity
 
 	public void onClick_send(View view)                                     // Words message event
 	{
+		if(!logFlag)
+		{
+			showToast("您还未登录，请先登录");
+			return;
+		}
 		mContent = inputMessage.getText().toString();
 		chatAdapter.addList(mContent, ChatAdapter.Tx, ChatAdapter.WORD);
 
@@ -188,8 +197,8 @@ public class MainActivity extends Activity
 				else if (msg.arg1 == ClientThread.CONNECT_SUCCESS)
 				{
 					showToast("连接成功");
+					logFlag = true;
 					sound_bt.setEnabled(true);
-					send_bt.setEnabled(true);
 				}
 				else
 				{
@@ -266,7 +275,7 @@ public class MainActivity extends Activity
 
 		case 3:
 			new AlertDialog.Builder(this).setTitle("关于")
-					.setMessage("版本: 即时通信(V2.0)").setNegativeButton("确定", null)
+					.setMessage("版本: 即时通信(V2.3)").setNegativeButton("确定", null)
 					.show();
 			break;
 

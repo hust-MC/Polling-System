@@ -1,7 +1,9 @@
-package com.example.audio_clientrev;
+package com.mc.instance_messgage;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.example.audio_clientrev.R;
 
 import android.app.Activity;
 import android.media.MediaRecorder;

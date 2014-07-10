@@ -17,6 +17,12 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="Splash">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    
     <style name="textview_style">
         <item name="android:textSize">20sp</item>
         <item name="android:layout_marginLeft">30dp</item>

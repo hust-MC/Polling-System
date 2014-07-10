@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bubble_l"
-    android:gravity="left"
-    android:paddingBottom="10dp"
     android:layout_margin="20dp"
-    android:orientation="vertical" >
+    android:gravity="left" >
 
-    <TextView
-        android:id="@+id/chatView_l"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="MC" />
+        android:layout_gravity="left"
+        android:layout_margin="20dp"
+        android:background="@drawable/bubble_l"
+        android:orientation="vertical"
+        android:paddingBottom="13dp" >
 
-    <TextView
-        android:id="@+id/ttime_l"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:textSize="10sp"
-        android:paddingRight="20dp"
-        android:text="MC" />
+        <TextView
+            android:id="@+id/chatView_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="MC" />
+
+        <TextView
+            android:id="@+id/ttime_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="MC"
+            android:textSize="10sp" />
+    </LinearLayout>
 
 </LinearLayout>

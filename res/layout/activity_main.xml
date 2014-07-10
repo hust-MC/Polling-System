@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/chatground"
     android:orientation="vertical" >
 
     <TextView
@@ -17,8 +18,8 @@
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:layout_weight="1"
-        android:background="#a00f"
         android:cacheColorHint="#00000000"
         android:clickable="true"
         android:divider="@null"
@@ -49,20 +50,18 @@
                 android:id="@+id/send_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
                 android:background="@drawable/newusr"
                 android:onClick="onClick_send"
                 android:text="发送"
-                android:enabled="false"
                 android:textColor="#1e90ff" />
 
             <EditText
                 android:id="@+id/inputMessage"
-                android:layout_toLeftOf="@id/send_bt"
-                style="@style/edittext_style" />
+                style="@style/edittext_style"
+                android:layout_toLeftOf="@id/send_bt" />
         </RelativeLayout>
-
     </LinearLayout>
 
 </LinearLayout>

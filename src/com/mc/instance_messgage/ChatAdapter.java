@@ -1,7 +1,9 @@
-package com.example.audio_clientrev;
+package com.mc.instance_messgage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.audio_clientrev.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;

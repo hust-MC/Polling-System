@@ -1,6 +1,8 @@
-package com.example.audio_clientrev;
+package com.mc.instance_messgage;
 
 import java.io.File;
+
+import com.example.audio_clientrev.R;
 
 import android.app.Activity;
 import android.content.Intent;
