@@ -84,7 +84,7 @@ public class ChatAdapter extends BaseAdapter
 				now = (TextView) linearLayout.findViewById(R.id.ttime_r);
 
 				textView.setText(String.valueOf(chatList.get(position).Content));
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+				now.setText(time.month + 1 + "/" + time.monthDay + " " + time.hour
 						+ ":" + minute);
 				break;
 
@@ -98,7 +98,7 @@ public class ChatAdapter extends BaseAdapter
 				
 				imageView_pic
 						.setImageBitmap((Bitmap) chatList.get(position).Content);
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+				now.setText(time.month + 1 + "/" + time.monthDay + " " + time.hour
 						+ ":" + minute);
 				break;
 
@@ -112,7 +112,7 @@ public class ChatAdapter extends BaseAdapter
 				
 				imageView_sound
 						.setImageBitmap((Bitmap) chatList.get(position).Content);
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+				now.setText(time.month + 1 + "/" + time.monthDay + " " + time.hour
 						+ ":" + minute);
 				break;
 			}
@@ -130,7 +130,7 @@ public class ChatAdapter extends BaseAdapter
 				now = (TextView) linearLayout.findViewById(R.id.ptime_l);
 				
 				chatView.setImageBitmap((Bitmap) chatList.get(position).Content);
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+				now.setText(time.month + 1 + "/" + time.monthDay + " " + time.hour
 						+ ":" + minute);
 			}
 			else
@@ -143,7 +143,7 @@ public class ChatAdapter extends BaseAdapter
 				now = (TextView) linearLayout.findViewById(R.id.ttime_l);
 				
 				chatView.setText(String.valueOf(chatList.get(position).Content));
-				now.setText(time.month + "/" + time.monthDay + " " + time.hour
+				now.setText(time.month + 1 + "/" + time.monthDay + " " + time.hour
 						+ ":" + minute);
 			}
 		}

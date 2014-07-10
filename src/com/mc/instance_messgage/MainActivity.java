@@ -34,8 +34,6 @@ public class MainActivity extends Activity
 
 	boolean logFlag = false;
 	
-	final int STOP_RECORDING = 800;
-
 	ClientThread clientThread;                        	 // Create a new thread to process client service
 	EditText inputMessage;
 	Button send_bt;
