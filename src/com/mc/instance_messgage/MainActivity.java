@@ -171,7 +171,7 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_mc);
 
 		wiget_init();
 		setListener();                                                    // initial sound button
