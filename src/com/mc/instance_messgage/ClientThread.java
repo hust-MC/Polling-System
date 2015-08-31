@@ -1,6 +1,7 @@
 package com.mc.instance_messgage;
 
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import android.util.Log;
 
 public class ClientThread implements Runnable
 {
-	final int PORT = 6666;                            // ÉèÖÃ¶Ë¿ÚÐÅÏ¢
+	final int PORT = 6666;                            // ï¿½ï¿½ï¿½Ã¶Ë¿ï¿½ï¿½ï¿½Ï¢
 	final int TIMEOUT = 3000;
 
-	static final int CONNECT_FAILED = 1;                     // ³õÊ¼»¯ÏûÏ¢ÀàÐÍ
+	static final int CONNECT_FAILED = 1;                     // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	static final int CONNECT_SUCCESS = 2;
 
 	static Socket socket;
@@ -63,7 +64,7 @@ public class ClientThread implements Runnable
 		}
 		try
 		{
-			while ((obj = dataTransmission.rev()) != null)                   // ÅÐ¶ÏÊý¾ÝÀàÐÍ
+			while ((obj = dataTransmission.rev()) != null)                   // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				sendMsg(obj);
 			}
